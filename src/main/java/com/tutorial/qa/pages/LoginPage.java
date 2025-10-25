@@ -29,14 +29,13 @@ public class LoginPage {
 		
 	}
 	
-	public void EnterEmail(String email)
+	
+	public AccountPage login(String email,String password)
 	{
 		emailField.sendKeys(email);
-	}
-	
-	public void EnterPassword(String password)
-	{
 		passwordField.sendKeys(password);
+		loginButtonLoginPage.click();
+		return new AccountPage(driver);
 	}
 	
 	public void ClickonLoginButton()

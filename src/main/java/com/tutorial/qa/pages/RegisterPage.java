@@ -59,6 +59,8 @@ public class RegisterPage {
 	@FindBy(xpath="//input[@name='password']/following-sibling::div")
 	private WebElement PasswordWarning;
 	
+	
+	
 	public String PrivacyPolicywarning() 
 	{
 		String text = PrivacyPolicywarning.getText();
@@ -140,9 +142,10 @@ public class RegisterPage {
 		PrivacyPolicyCheckbox.click();
 	}
 	
-	public void ClickOnContinueButton() 
+	public AccountSuccessPage ClickOnContinueButton() 
 	{
 		ContinueButton.click();
+		return new AccountSuccessPage(driver);
 	}
 	
 	public void ClickOnNewsletterCheckbox() 
@@ -155,5 +158,70 @@ public class RegisterPage {
 		String text = existingEmailWarning.getText();
 		return text;
 	}
+	
+	public AccountSuccessPage register(String firstName,String lastName, String email,
+			String telephone,String password,String confirmPassword)
 
+	{
+		
+		firstNameField.sendKeys(firstName);
+		lastNameField.sendKeys(lastName);
+		emailField.sendKeys(email);
+		telephoneField.sendKeys(telephone);
+		passwordField.sendKeys(password);
+		confirmPasswordField.sendKeys(confirmPassword);
+		PrivacyPolicyCheckbox.click();
+		ContinueButton.click();
+		return new AccountSuccessPage(driver);
+	}
+
+	
+	public AccountSuccessPage registerWithAllFields(String firstName,String lastName, String email,
+			String telephone,String password,String confirmPassword)
+
+	{
+		
+		firstNameField.sendKeys(firstName);
+		lastNameField.sendKeys(lastName);
+		emailField.sendKeys(email);
+		telephoneField.sendKeys(telephone);
+		passwordField.sendKeys(password);
+		confirmPasswordField.sendKeys(confirmPassword);
+		newsletterCheckbox.click();
+		PrivacyPolicyCheckbox.click();
+		ContinueButton.click();
+		return new AccountSuccessPage(driver);
+	}
+	
+	public boolean displayStatusOfWarningmessages(String expectedPrivacyPolicywarning, 
+			String expectedFirstNameWarning,
+			String expectedLastNameWarning,
+			String expectedEmailWarning,
+			String expectedTelephoneWarning,
+			String expectedPasswordWarning )
+	{
+		
+		boolean privacyPolicyWarningStatus = PrivacyPolicywarning.getText().contains(expectedPrivacyPolicywarning);
+		
+		
+		boolean firstNameWarningStatus = FirstNameWarning.getText().equals(expectedFirstNameWarning);
+		
+		
+		boolean LastNameWarningStatus = LastNameWarning.getText().equals(expectedLastNameWarning);
+		
+		
+		boolean EmailWarningStatus = EmailWarning.getText().equals(expectedEmailWarning);
+		
+	
+		boolean TelephoneWarningStatus = TelephoneWarning.getText().equals(expectedTelephoneWarning);
+		
+		
+		boolean PasswordWarningStatus = PasswordWarning.getText().equals(expectedPasswordWarning);
+		
+		return privacyPolicyWarningStatus && firstNameWarningStatus && LastNameWarningStatus
+				&& EmailWarningStatus && TelephoneWarningStatus && PasswordWarningStatus;
+		
+		
+	}
+	
 }

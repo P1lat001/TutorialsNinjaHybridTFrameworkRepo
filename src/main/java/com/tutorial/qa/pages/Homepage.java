@@ -10,7 +10,7 @@ public class Homepage {
 	
 	WebDriver driver;
 	
-	@FindBy(xpath ="//input[@value='Login']")
+	@FindBy(linkText = "My Account")
     private	WebElement myAccountDropMenu;
 	
 	@FindBy(linkText ="Login")
@@ -25,9 +25,10 @@ public class Homepage {
 	@FindBy(xpath="//div[@id='search']/descendant::button")
 	private WebElement clickSearchButton;
 	
-	public void ClickonSearchButton()
+	public SearchPage ClickonSearchButton()
 	{
 		clickSearchButton.click();
+		return new SearchPage(driver);
 	}
 	
 	public Homepage(WebDriver driver)
@@ -37,25 +38,25 @@ public class Homepage {
 		
 	}
 	
-	public void ClickonMyAccountDropMenu()
+	
+	public LoginPage navigateToLoginpage()
 	{
 		myAccountDropMenu.click();
-	}
-	
-	public void SelectLoginOption()
-	{
 		loginOption.click();
+		return new LoginPage(driver);
 	}
 	
-	public void SelectRegisterOption()
+	public RegisterPage navigateToRegisterPage()
 	{
+		myAccountDropMenu.click();
 		registerOption.click();
+		return new RegisterPage(driver);
 	}
 	
-	public void EnterProductInSearchBox(String productName)
+	public SearchPage EnterProductInSearchBox(String productName)
 	{
 		searchBox.sendKeys(productName+ Keys.ENTER);
-		
+		return new SearchPage(driver);
 	}
 	
 

@@ -12,19 +12,24 @@ import com.tutorial.qa.pages.Homepage;
 import com.tutorial.qa.pages.SearchPage;
 import com.tutorials.qa.base.Base;
 
-public class Search extends Base {
+public class SearchTest extends Base {
 	
-	public Search()
+	SearchPage searchPage;
+	Homepage homePage;
+	
+	public SearchTest()
 	{
 		super();
 	}
 	
-	WebDriver driver;
+	public WebDriver driver;
 	
 	@BeforeMethod
 	public void setup() {
 		
 		driver =IntializeBrowserandOpenApplication(prop.getProperty("browserName"));
+		homePage = new Homepage(driver);
+		
 		}
 	
 	@AfterMethod
@@ -36,42 +41,31 @@ public class Search extends Base {
 	@Test(priority = 1)
 	public void Verify_Search_With_valid_Product() {
 		
-		Homepage homePage = new Homepage(driver);
-		homePage.EnterProductInSearchBox(test_Data_Prop.getProperty("validProduct"));
 		
-		SearchPage searchPage = new SearchPage(driver);
-		
+		searchPage = homePage.EnterProductInSearchBox(test_Data_Prop.getProperty("validProduct"));
 		//div[@id='search']/descendant::button // for search button
-		
-		Assert.assertTrue(searchPage.ValidProduct(),"HP LP3065 is not displayed");
+	    Assert.assertTrue(searchPage.ValidProduct(),"HP LP3065 is not displayed");
 		
 		}
 	
 	@Test(priority = 2)
 	public void Verify_Search_With_invalid_Product() {
 		
-		Homepage homePage = new Homepage(driver);
-		homePage.EnterProductInSearchBox(test_Data_Prop.getProperty("invalidProduct"));
-		
-		SearchPage searchPage = new SearchPage(driver);
-		
-	    String actual_SearchMessage = searchPage.InvalidProduct();
-	    Assert.assertEquals(actual_SearchMessage,
-	    		test_Data_Prop.getProperty("noProductWarning"),"message not displayed");
+	    
+	    searchPage = homePage.EnterProductInSearchBox(test_Data_Prop.getProperty("invalidProduct"));
+	    Assert.assertEquals(searchPage.InvalidProduct(),
+	    		"abcd","message not displayed");
 	    
 	}
 	
 	
-	@Test(priority = 3)
+	@Test(priority = 3,dependsOnMethods = {"Verify_Search_With_valid_Product",
+			"Verify_Search_With_invalid_Product"})
 	public void Verify_Search_Without_any_Product() {
 		
-		Homepage homePage = new Homepage(driver);
-		homePage.ClickonSearchButton();
 		
-		SearchPage searchPage = new SearchPage(driver);
-		
-		String actual_SearchMessageWithoutProduct = searchPage.InvalidProduct();
-	    Assert.assertEquals(actual_SearchMessageWithoutProduct,
+		searchPage = homePage.ClickonSearchButton();
+	    Assert.assertEquals(searchPage.InvalidProduct(),
 	    test_Data_Prop.getProperty("noProductWarning"),"message not displayed");
 	}
 	
