@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 import com.tutorial.qa.pages.Homepage;
 import com.tutorial.qa.pages.SearchPage;
 import com.tutorials.qa.base.Base;
-
+// updated comment
 public class SearchTest extends Base {
 	
 	SearchPage searchPage;
